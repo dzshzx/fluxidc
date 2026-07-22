@@ -452,7 +452,7 @@ class AppCookieManager extends Interceptor {
       });
     }
 
-    if (options.uri.host == 'connect.linux.do') {
+    if (options.uri.host == 'connect.idcflare.com') {
       final authCookies = requestCookies
           .where((cookie) => cookie.name == 'auth.session-token')
           .map(
@@ -462,11 +462,11 @@ class AppCookieManager extends Interceptor {
           .toList(growable: false);
       if (authCookies.isNotEmpty) {
         debugPrint(
-          '[CookieManager] request cookies for connect.linux.do: $authCookies',
+          '[CookieManager] request cookies for connect.idcflare.com: $authCookies',
         );
       } else {
         debugPrint(
-          '[CookieManager] request cookies for connect.linux.do: <none>',
+          '[CookieManager] request cookies for connect.idcflare.com: <none>',
         );
       }
     }

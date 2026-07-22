@@ -178,7 +178,20 @@ class UpdateService {
   Future<UpdateInfo> checkForUpdate({bool useCache = false}) async {
     final currentVersion = await getCurrentVersion();
 
+    // idcflare 适配版:上游 Lingyan000/fluxdo release 面向 linux.do 且
+    // applicationId 不同,不能作为本应用的更新源,固定返回"无更新"。
+    // 如后续为本适配版建立独立 release 仓库,改 _repository 并删除此段。
+    // 下方原实现保留不删,便于跟进上游合并。
+    return UpdateInfo(
+      currentVersion: currentVersion,
+      remoteVersion: currentVersion,
+      releaseUrl: '',
+      releaseNotes: '',
+      hasUpdate: false,
+    );
+
     // 检查缓存是否有效
+    // ignore: dead_code
     if (useCache && _prefs != null) {
       final cachedInfo = _getCachedUpdateInfo(currentVersion);
       if (cachedInfo != null) {

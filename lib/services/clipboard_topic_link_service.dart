@@ -23,8 +23,8 @@ class ClipboardTopicLinkService {
   static const String lastPromptedHashPrefsKey =
       'pref_clipboard_topic_link_last_prompted_hash';
 
-  static final RegExp _linuxDoUrlRegex = RegExp(
-    r'(?:(?:https?:)?//)?(?:www\.)?linux\.do(?::\d+)?/[^\s<>"\]\)）}】》]+',
+  static final RegExp _siteUrlRegex = RegExp(
+    r'(?:(?:https?:)?//)?(?:www\.)?idcflare\.com(?::\d+)?/[^\s<>"\]\)）}】》]+',
     caseSensitive: false,
   );
 
@@ -75,7 +75,7 @@ class ClipboardTopicLinkService {
   }
 
   ClipboardTopicLinkCandidate? findFirstTopicLink(String text) {
-    for (final match in _linuxDoUrlRegex.allMatches(text)) {
+    for (final match in _siteUrlRegex.allMatches(text)) {
       final rawUrl = _trimTrailingPunctuation(match.group(0)!);
       if (!_hasValidLeadingBoundary(text, match.start)) continue;
 
@@ -167,7 +167,8 @@ class ClipboardTopicLinkService {
 
   static bool _isAllowedHost(String host) {
     final normalizedHost = host.toLowerCase();
-    return normalizedHost == 'linux.do' || normalizedHost == 'www.linux.do';
+    return normalizedHost == 'idcflare.com' ||
+        normalizedHost == 'www.idcflare.com';
   }
 
   static bool _isSupportedTopicPath(String path) {

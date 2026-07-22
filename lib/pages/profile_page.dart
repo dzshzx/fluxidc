@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:app_icons/app_icons.dart';
+import '../constants.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/user.dart';
@@ -295,7 +296,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
     if (username != null && username.isNotEmpty) {
       await WebViewPage.open(
         context, 
-        'https://linux.do/u/$username/preferences/account',
+        'https://idcflare.com/u/$username/preferences/account',
         title: context.l10n.profile_editProfile,
         injectCss: '''
           .new-user-content-wrapper {
@@ -583,6 +584,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
 
   /// LDC/CDK 余额卡片（共用组件）
   Widget _buildBalanceCards() {
+    if (!AppConstants.enableLinuxDoEcosystem) return const SizedBox.shrink();
     // 仅本页首次成为活跃 tab 后才渲染余额卡片;未激活时返回空,不建 Consumer、
     // 不 watch provider,从而不触发 cdk/ldc user-info 请求。
     if (!_balanceEverActive) return const SizedBox.shrink();
@@ -820,12 +822,13 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
             MaterialPageRoute(builder: (_) => const ExportHistoryPage()),
           ),
         ),
-        _buildOptionTile(
-          icon: Symbols.explore_rounded,
-          iconColor: Colors.deepOrange,
-          title: context.l10n.profile_metaverse,
-          onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const MetaversePage()))
-        ),
+        if (AppConstants.enableLinuxDoEcosystem)
+          _buildOptionTile(
+            icon: Symbols.explore_rounded,
+            iconColor: Colors.deepOrange,
+            title: context.l10n.profile_metaverse,
+            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const MetaversePage()))
+          ),
       ],
     );
   }

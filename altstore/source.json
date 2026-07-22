@@ -1,12 +1,12 @@
 {
-  "name": "FluxDO Source",
-  "identifier": "com.github.lingyan000.fluxdo.AltStore",
+  "name": "IDCFlare Source",
+  "identifier": "com.github.lingyan000.fluxdo.idcflare.AltStore",
   "apps": [
     {
-      "name": "FluxDO",
-      "bundleIdentifier": "com.github.lingyan000.fluxdo",
+      "name": "IDCFlare",
+      "bundleIdentifier": "com.github.lingyan000.fluxdo.idcflare",
       "developerName": "lingyan000",
-      "localizedDescription": "A third-party client for LINUX DO community.",
+      "localizedDescription": "A third-party client for IDC Flare community.",
       "iconURL": "https://lingyan000.github.io/fluxdo/icon.png",
       "versions": []
     }

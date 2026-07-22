@@ -427,7 +427,7 @@ class _LoginPageState extends State<LoginPage>
                 : LoginForm(
                     onSubmit: _handleSubmit,
                     onForgotPassword: () =>
-                        _loginWithWebView('https://linux.do/password-reset'),
+                        _loginWithWebView('https://idcflare.com/password-reset'),
                     savedUsername: _savedUsername,
                     savedPassword: _savedPassword,
                   ),

@@ -11,7 +11,7 @@ final connectStatsProvider = FutureProvider<ConnectStats?>((ref) async {
   if (user == null) return null;
 
   final dio = DiscourseDio.create();
-  final response = await dio.get('https://connect.linux.do/');
+  final response = await dio.get('https://connect.idcflare.com/');
   if (response.statusCode == 200) {
     return ConnectStats.fromHtml(response.data);
   }

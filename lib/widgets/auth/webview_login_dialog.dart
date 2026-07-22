@@ -593,7 +593,7 @@ document.close();
       }
       await BoundarySyncService.instance.syncFromWebView(
         controller: controller,
-        currentUrl: 'https://linux.do/',
+        currentUrl: 'https://idcflare.com/',
         cookieNames: null,
         allowLowConfidenceSessionCookies: true,
         requestGeneration: _flowGeneration,

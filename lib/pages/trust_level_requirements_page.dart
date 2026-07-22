@@ -41,7 +41,7 @@ class _TrustLevelRequirementsPageState
 
     try {
       final dio = DiscourseDio.create();
-      final response = await dio.get('https://connect.linux.do/');
+      final response = await dio.get('https://connect.idcflare.com/');
 
       if (response.statusCode == 200) {
         await _parseHtml(response.data);

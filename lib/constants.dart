@@ -5,13 +5,18 @@ import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:ua_client_hints/ua_client_hints.dart';
 import 'config/site_customization.dart';
-import 'config/sites/linuxdo.dart';
+import 'config/sites/idcflare.dart';
 import 'services/windows_webview_environment_service.dart';
 
 /// 应用常量
 class AppConstants {
   /// 当前站点自定义配置
-  static final SiteCustomization siteCustomization = linuxdoCustomization;
+  static final SiteCustomization siteCustomization = idcflareCustomization;
+
+  /// 是否启用 linux.do 生态服务(CDK 积分、LDC 奖励)。
+  /// 这些服务依赖 cdk.linux.do / credit.linux.do / connect.linux.do 的
+  /// linux.do 登录态,idcflare.com 无对应服务,关闭入口;相关代码保留以便跟进上游。
+  static const bool enableLinuxDoEcosystem = false;
 
   /// 是否启用 WebView Cookie 同步（启动时预热 WebView）
   /// 设为 false 时，不使用 WebView 同步，Cookie 由 Dio Set-Cookie 与本地存储维护
@@ -297,8 +302,8 @@ class AppConstants {
         '(KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36';
   }
 
-  /// linux.do 域名
-  static const String baseUrl = 'https://linux.do';
+  /// idcflare.com 域名
+  static const String baseUrl = 'https://idcflare.com';
 
   /// 请求首页时是否跳过 X-CSRF-Token（用于预热）
   static const bool skipCsrfForHomeRequest = true;

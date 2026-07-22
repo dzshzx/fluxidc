@@ -1229,11 +1229,7 @@ class NetworkSettingsService {
   List<String> _collectCommonHosts() {
     final preloaded = PreloadedDataService();
     final hosts = <String>{
-      'connect.linux.do',
-      'ping.linux.do',
-      'cdn.linux.do',
-      'credit.linux.do',
-      'cdk.linux.do',
+      'connect.idcflare.com',
     };
 
     for (final value in [
