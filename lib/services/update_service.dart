@@ -83,7 +83,7 @@ class UpdateInfo {
 
 /// 应用更新检查服务
 class UpdateService {
-  static const String _repository = 'Lingyan000/fluxdo';
+  static const String _repository = 'dzshzx/fluxidc';
   static const String _apiUrl =
       'https://api.github.com/repos/$_repository/releases/latest';
   static const String _autoCheckUpdateKey = 'auto_check_update';
@@ -178,20 +178,7 @@ class UpdateService {
   Future<UpdateInfo> checkForUpdate({bool useCache = false}) async {
     final currentVersion = await getCurrentVersion();
 
-    // idcflare 适配版:上游 Lingyan000/fluxdo release 面向 linux.do 且
-    // applicationId 不同,不能作为本应用的更新源,固定返回"无更新"。
-    // 如后续为本适配版建立独立 release 仓库,改 _repository 并删除此段。
-    // 下方原实现保留不删,便于跟进上游合并。
-    return UpdateInfo(
-      currentVersion: currentVersion,
-      remoteVersion: currentVersion,
-      releaseUrl: '',
-      releaseNotes: '',
-      hasUpdate: false,
-    );
-
     // 检查缓存是否有效
-    // ignore: dead_code
     if (useCache && _prefs != null) {
       final cachedInfo = _getCachedUpdateInfo(currentVersion);
       if (cachedInfo != null) {
@@ -399,9 +386,17 @@ class UpdateService {
   /// - 正数: v1 > v2
   /// - 0: v1 == v2
   /// - 负数: v1 < v2
+  /// fluxidc 的 release tag 带 `-idcflare.N` 后缀(与 fork 继承的上游 tag 区分),
+  /// 比较时剥掉后缀只比数字主版本;因此每个 release 都必须 bump patch 版本。
   int _compareVersions(String v1, String v2) {
-    final parts1 = v1.split('.').map(int.parse).toList();
-    final parts2 = v2.split('.').map(int.parse).toList();
+    List<int> parse(String v) => v
+        .split('-')
+        .first
+        .split('.')
+        .map((p) => int.tryParse(p) ?? 0)
+        .toList();
+    final parts1 = parse(v1);
+    final parts2 = parse(v2);
 
     for (int i = 0; i < 3; i++) {
       final p1 = i < parts1.length ? parts1[i] : 0;
