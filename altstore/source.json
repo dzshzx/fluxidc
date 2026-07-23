@@ -1,6 +1,6 @@
 {
   "name": "IDCFlare Source",
-  "identifier": "com.github.lingyan000.fluxdo.idcflare.AltStore",
+  "identifier": "com.github.dzshzx.fluxidc.AltStore",
   "apps": [
     {
       "name": "IDCFlare",

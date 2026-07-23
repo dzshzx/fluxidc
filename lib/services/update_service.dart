@@ -195,7 +195,7 @@ class UpdateService {
         options: Options(
           responseType: ResponseType.json,
           headers: {
-            'User-Agent': 'FluxDO-App',
+            'User-Agent': 'IDCFlare-App',
             'Accept': 'application/vnd.github.v3+json',
             if (storedEtag != null) 'If-None-Match': storedEtag,
           },
@@ -339,7 +339,7 @@ class UpdateService {
       if (!name.endsWith('.apk')) continue;
 
       // 从文件名中提取架构
-      // 例如：fluxdo-0.1.11-arm64-v8a.apk
+      // 例如：fluxidc-arm64-v8a.apk(按架构子串匹配,前缀无关)
       final architecture = _extractArchitecture(name);
       if (architecture == null) continue;
 

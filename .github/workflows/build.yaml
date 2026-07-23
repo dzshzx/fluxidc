@@ -134,7 +134,7 @@ jobs:
           cmp -s core/doh_proxy/certs/ca.der android/app/src/main/res/raw/proxy_ca.der
           cmp -s core/doh_proxy/certs/ca.crt assets/certs/proxy_ca.pem
           mkdir -p dist
-          mv build/app/outputs/flutter-apk/app-release.apk dist/fluxdo-${{ matrix.arch }}.apk
+          mv build/app/outputs/flutter-apk/app-release.apk dist/fluxidc-${{ matrix.arch }}.apk
 
       - name: Authenticate to Google Cloud
         if: startsWith(matrix.platform, 'android')
@@ -168,8 +168,8 @@ jobs:
           cd build/ios/iphoneos
           mkdir Payload
           cp -r Runner.app Payload/
-          zip -r fluxdo-unsigned.ipa Payload
-          mv fluxdo-unsigned.ipa ../../../dist/
+          zip -r fluxidc-unsigned.ipa Payload
+          mv fluxidc-unsigned.ipa ../../../dist/
 
       - name: Install macOS dependencies
         if: matrix.platform == 'macos'
@@ -385,7 +385,7 @@ jobs:
         run: |
           echo "::warning::git-cliff 失败，回退到 legacy bash"
           tags=($(git tag --merged HEAD --sort=-creatordate))
-          preTag=$(curl -s "https://api.github.com/repos/lingyan000/fluxdo/releases/latest" | \
+          preTag=$(curl -s "https://api.github.com/repos/dzshzx/fluxidc/releases/latest" | \
           sed -nE 's/.*"tag_name": "([^"]+)".*/\1/p' || echo "")
 
           out="release_notes.md"
@@ -441,8 +441,8 @@ jobs:
         run: |
           VERSION="${GITHUB_REF#refs/tags/v}"
           VERSION_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-          DOWNLOAD_URL="https://github.com/lingyan000/fluxdo/releases/download/v${VERSION}/fluxdo-unsigned.ipa"
-          IPA_SIZE=$(stat -c%s "./dist/fluxdo-unsigned.ipa" 2>/dev/null || stat -f%z "./dist/fluxdo-unsigned.ipa")
+          DOWNLOAD_URL="https://github.com/dzshzx/fluxidc/releases/download/v${VERSION}/fluxidc-unsigned.ipa"
+          IPA_SIZE=$(stat -c%s "./dist/fluxidc-unsigned.ipa" 2>/dev/null || stat -f%z "./dist/fluxidc-unsigned.ipa")
           # 从 plain 版本按段落边界截断到 1500 字符以内，避免硬截到段落中间
           VERSION_DESC=$(awk 'BEGIN{RS=""; ORS="\n\n"; n=0} {n+=length($0)+2; if(n>1500) exit; print}' release_notes.txt)
 
