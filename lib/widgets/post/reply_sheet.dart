@@ -28,7 +28,7 @@ import '../../l10n/s.dart';
 import '../../utils/dialog_utils.dart';
 import '../../providers/shortcut_provider.dart';
 import '../ai/ai_post_review_button.dart';
-import '../common/loading_spinner.dart';
+import 'package:m3e_ui/m3e_ui.dart';
 
 /// 显示回复底部弹框
 /// [topicId] 话题 ID (回复话题/帖子时必需)
@@ -525,6 +525,15 @@ class _ReplySheetState extends ConsumerState<ReplySheet> {
       _submitted = true;
       if (!mounted) return;
       final pending = e.pendingPost;
+      if (pending != null && widget.editPost == null && widget.topicId != null) {
+        // enqueued 响应的 pending_post 只有 {id, raw, created_at},回复目标
+        // 服务端 payload 存了但本人可见接口都不吐;趁 composer 还知道上下文
+        // 记入注册表,「撤回并重新编辑」才能恢复"回复某楼"而非退化为直接回复话题
+        PendingReplyTargetRegistry.record(
+          pending.id,
+          widget.replyToPost?.postNumber,
+        );
+      }
       if (widget.onEnqueued != null && pending != null) {
         // 宿主接管展示(如主题页底部待审块),轻提示即可
         widget.onEnqueued!(pending);
@@ -609,6 +618,7 @@ class _ReplySheetState extends ConsumerState<ReplySheet> {
               if (didPop) return;
               if (_showEmojiPanel) {
                 _editorKey.currentState?.closeEmojiPanel();
+                _richKey.currentState?.closeEmojiPanel();
                 setState(() => _showEmojiPanel = false);
               }
             },
@@ -753,13 +763,9 @@ class _ReplySheetState extends ConsumerState<ReplySheet> {
                                       ? null
                                       : _submit,
                                   child: _isSubmitting
-                                      ? const SizedBox(
-                                          width: 20,
-                                          height: 20,
-                                          child: CircularProgressIndicator(
-                                            strokeWidth: 2,
-                                            color: Colors.white,
-                                          ),
+                                      ? const LoadingSpinner(
+                                          size: 20,
+                                          color: Colors.white,
                                         )
                                       : Text(
                                           _isEditMode
@@ -808,6 +814,7 @@ class _ReplySheetState extends ConsumerState<ReplySheet> {
                             onTap: () {
                               if (_showEmojiPanel) {
                                 _editorKey.currentState?.closeEmojiPanel();
+                                _richKey.currentState?.closeEmojiPanel();
                                 setState(() => _showEmojiPanel = false);
                               }
                             },
