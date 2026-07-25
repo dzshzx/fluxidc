@@ -11,9 +11,9 @@ idcflare.com,基于 Flutter 开发。打包目标为 Android 与 iOS。
 <a href="https://github.com/dzshzx/fluxidc/releases"><img alt="Get it on GitHub" src="https://img.shields.io/github/v/release/dzshzx/fluxidc?style=for-the-badge&logo=github&label=GitHub%20Releases" /></a>
 
 - **Android**:从 [Releases](https://github.com/dzshzx/fluxidc/releases) 下载
-  `fluxidc-<架构>.apk`(常见设备选 arm64-v8a),可与原版 FluxDO 并存安装;
+  `fluxidc-arm64-v8a.apk`(仅提供 64 位 ARM 架构),可与原版 FluxDO 并存安装;
   应用内置更新检查,指向本仓库 Releases。
-- **iOS**:无签名 ipa 需自签安装(AltStore / SideStore 等)。
+- **iOS**:下载 `fluxidc-unsigned.ipa`,无签名 ipa 需自签安装(AltStore / SideStore 等)。
 
 ## 与上游 FluxDO 的差异
 
