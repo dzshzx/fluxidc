@@ -1,5 +1,36 @@
 # 发版与 iOS IPA
 
+## 本 fork 的 CI 发版流程
+
+fork 发版 tag 形如 `vX.Y.Z-idcflare.N`,push tag 即由 CI(`.github/workflows/build.yaml`)
+自动完成构建与发布,无需本地构建:
+
+1. **bump 版本**:每个 release 必须 bump patch 版本(应用内更新检查剥离 `-idcflare.N`
+   后缀、按数字核心比较,版本不涨则用户收不到更新)。build 号格式为 `YYYYMMDD` + 两位
+   序号(如 `0.2.27+2026072502`),同日多发时序号递增。
+2. **提交并打 tag**:
+
+   ```bash
+   git commit -am "🔖 bump version to X.Y.Z+构建号"
+   git tag vX.Y.Z-idcflare.N
+   git push origin main vX.Y.Z-idcflare.N
+   ```
+
+3. **CI 自动执行**:构建 Android arm64-v8a 签名 APK 与 iOS 无签名 ipa,生成 sha256,
+   创建 GitHub Release(正文 = git-cliff 相对上一 tag 的增量明细 + 下载表格模板
+   `.github/release_template.md`)。
+
+门禁说明:workflow 中 `IS_RELEASE` 把 `-idcflare.N` tag 视同正式发布(生成 checksum、
+创建 Release);`IS_STABLE`(无 `-` 后缀)专属的渠道——changelog 再生成、AltStore、
+gh-pages、Telegram 通知——fork tag 不触发。Android 签名依赖仓库 Actions Secrets:
+`ANDROID_KEYSTORE_BASE64` / `ANDROID_KEY_PROPERTIES` / `GOOGLE_SERVICES_JSON`;
+Crashlytics 符号上传在 `GCP_WIF_PROVIDER` 未配置时自动跳过。
+
+---
+
+以下为上游继承的本地发版工具链(`just release` 系列)参考;fork 发版按上节流程即可,
+不依赖这些入口。
+
 ## 版本亮点(stable 发版前)
 
 stable 版本的发布日志正文取自 `highlights/v<版本>.md`(用户视角亮点),GitHub Release 会把全量
