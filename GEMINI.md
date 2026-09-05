@@ -8,9 +8,11 @@ Use Chinese for all communication and code comments.
 
 When adding or updating dependencies in `pubspec.yaml`:
 
-- **MUST** use the latest stable version of any package.
-- **MUST** check [pub.dev](https://pub.dev) for the current version before adding a dependency.
-- **NEVER** copy outdated version numbers from memory or examples.
+- Check [pub.dev](https://pub.dev) for the current release, then select a version
+  compatible with the project's SDK, plugin/codegen versions, and lockfile.
+- Preserve documented pins, path/git dependencies, and prerelease requirements
+  unless the task includes changing the compatibility constraint. Validate the
+  affected integration when updating one of these dependencies.
 
 ## Time Handling
 
